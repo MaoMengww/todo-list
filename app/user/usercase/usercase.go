@@ -21,12 +21,14 @@ func (uc *UserUseCase) Register(ctx context.Context, user *domain.User) (int64, 
 	if err == nil && existUser != nil {
 		return 0, errors.New("用户已存在")
 	}
+
+	//密码加密储存
     hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return 0, err
 	}
 	user.Password = string(hashedPassword)
-	return uc.repo.CreateUser(ctx, user)
+	return uc.repo.Create(ctx, user)
 }
 
 func (uc *UserUseCase) Login(ctx context.Context, username string, password string) (*domain.User, error) {

@@ -13,6 +13,12 @@ type UserServiceImpl struct{
 	usecase *usercase.UserUseCase
 }
 
+func NewUserServiceImpl(uc *usercase.UserUseCase) *UserServiceImpl {
+	return &UserServiceImpl{
+		usecase: uc,
+	}
+}
+
 // Register implements the UserServiceImpl interface.
 func (s *UserServiceImpl) Register(ctx context.Context, req *user.RegisterRequest) (resp *user.RegisterResponse, err error) {
 	resp = &user.RegisterResponse{}

@@ -1,3 +1,13 @@
+server:
+  user:
+    name: user
+    address: localhost:20001
+  
+  todo:
+    name: todo
+    address: localhost:20002
+    
+
 mysql:
   host: localhost
   port: 3306
@@ -5,3 +15,10 @@ mysql:
   password: 123456
   db: user
   charset: utf8mb4
+
+etcd:
+  endpoints:
+    - localhost:2379
+
+jaeger:
+  address: localhost:6831

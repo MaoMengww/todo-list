@@ -23,6 +23,10 @@ func NewMysqlUserRepository(db *gorm.DB) *MysqlUserRepository {
 	}
 }
 
+func (u UserModel) TableName() string {
+	return "users"
+}
+
 func (r *MysqlUserRepository) Create(ctx context.Context, duser *domain.User) (int64, error) {
 	user := &UserModel{
 		Username: duser.Username,
@@ -34,7 +38,7 @@ func (r *MysqlUserRepository) Create(ctx context.Context, duser *domain.User) (i
 }
 
 
-func (r *MysqlUserRepository) GetById(ctx context.Context, userId int32) (*domain.User, error) {
+func (r *MysqlUserRepository) GetById(ctx context.Context, userId int64) (*domain.User, error) {
     var userModel UserModel
     err := r.DB.WithContext(ctx).Where("id = ?", userId).First(&userModel).Error
     if err != nil {
@@ -48,12 +52,16 @@ func (r *MysqlUserRepository) GetById(ctx context.Context, userId int32) (*domai
 }
 
 func (r *MysqlUserRepository) GetByUsername(ctx context.Context, username string) (*domain.User, error) {
-	var user domain.User
+	var user UserModel
 	err := r.DB.Where("username = ?", username).First(&user).Error
 	if err != nil {
 		return nil, err
 	}
-	return &user, nil
+	return &domain.User{
+		UserId:   int64(user.Id),
+		Username: user.Username,
+		Password: user.Password,
+	}, nil
 }
 
 func (r *MysqlUserRepository) UpdateUsername(ctx context.Context, uid int64, username string) error {

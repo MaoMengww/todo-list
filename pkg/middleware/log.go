@@ -1,0 +1,52 @@
+package middleware
+
+import (
+	"context"
+	"time"
+
+	"github.com/cloudwego/kitex/pkg/endpoint"
+	"github.com/cloudwego/kitex/pkg/klog"
+	"github.com/cloudwego/kitex/pkg/rpcinfo"
+	"github.com/bytedance/gopkg/cloud/metainfo"
+)
+
+var ServerLogMiddleware endpoint.Middleware = func(next endpoint.Endpoint) endpoint.Endpoint {
+	return func(ctx context.Context, req, resp interface{}) (err error) {
+		start := time.Now()
+		//获取rpc基本信息(例如调用的方法)
+		ri := rpcinfo.GetRPCInfo(ctx)
+		method := "unknow"
+		if ri != nil && ri.To() != nil {
+			method = ri.To().Method()
+		}
+
+		logId, ok := metainfo.GetPersistentValue(ctx, "log_id")
+		if !ok {
+			logId = "none"
+		}
+
+		klog.Infof("[%v] RPC Request | Method : %s | Req : %v", logId, method, req)
+
+		//执行下一个中间件或最终的Handler
+		err = next(ctx, req , resp)
+
+		cost := time.Since(start)
+		if err != nil {
+			klog.Errorf("[%v] RPC Error | Method : %s | Cost : %v | Err : %v", logId, method, cost, err)
+		} else {
+			klog.Infof("[%v] RPC Success | Method : %s | Cost : %v | Resp : %v", logId, method, cost, resp)
+		}
+		return err
+	} 
+}
+// ClientLogMiddleware 客户端日志中间件
+var ClientLogMiddleware endpoint.Middleware = func(next endpoint.Endpoint) endpoint.Endpoint {
+	return func(ctx context.Context, req, resp interface{}) (err error) {
+		klog.Infof("Client Sending Request: %+v", req)
+		err = next(ctx, req, resp)
+		if err != nil {
+			klog.Warnf("Client Recv Error: %v", err)
+		}
+		return err
+	}
+}
