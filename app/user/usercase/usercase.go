@@ -2,35 +2,52 @@ package usercase
 
 import (
 	"context"
+	"errors"
 	"todo-list/app/user/domain"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
-type UserRepository interface {
-	CreateUser(context.Context, *domain.User) (int32, error)
-	GetById(context.Context, int32) (*domain.User, error)
-	GetByUsername(context.Context, string) (*domain.User, error)
-	UpdateUsername(context.Context, int32, string) error
-}
-
 type UserUseCase struct {
-	repo UserRepository
+	repo domain.UserRepository
 }
 
-func NewUserUseCase(repo UserRepository) *UserUseCase {
+func NewUserUseCase(repo domain.UserRepository) *UserUseCase {
 	return &UserUseCase{repo: repo}
 }
 
-func (uc *UserUseCase) Register(ctx context.Context, user *domain.User) (int32, error) {
-	 return uc.repo.CreateUser(ctx, user)
+func (uc *UserUseCase) Register(ctx context.Context, user *domain.User) (int64, error) {
+	existUser, err := uc.repo.GetByUsername(ctx, user.Username)
+	if err == nil && existUser != nil {
+		return 0, errors.New("用户已存在")
+	}
+    hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return 0, err
+	}
+	user.Password = string(hashedPassword)
+	return uc.repo.CreateUser(ctx, user)
 }
 
-func (uc *UserUseCase) GetById(ctx context.Context, userId int32) (*domain.User, error) {
+func (uc *UserUseCase) Login(ctx context.Context, username string, password string) (*domain.User, error) {
+	user, err := uc.repo.GetByUsername(ctx, username)
+	if err != nil {
+		return nil, err
+	}
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	if err != nil {
+		return nil, errors.New("密码错误")
+	}
+	return uc.repo.GetByUsername(ctx, username)
+}
+
+func (uc *UserUseCase) GetById(ctx context.Context, userId int64) (*domain.User, error) {
 	return uc.repo.GetById(ctx, userId)
 }
 func (uc *UserUseCase) GetByUsername(ctx context.Context, username string) (*domain.User, error) {
 	return uc.repo.GetByUsername(ctx, username)
 }
 
-func (uc *UserUseCase) UpdateUsername(ctx context.Context, userId int32, username string) error {
+func (uc *UserUseCase) UpdateUsername(ctx context.Context, userId int64, username string) error {
 	return uc.repo.UpdateUsername(ctx, userId, username)
 }

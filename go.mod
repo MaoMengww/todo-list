@@ -5,6 +5,7 @@ go 1.25.1
 require (
 	github.com/cloudwego/gopkg v0.1.7
 	github.com/cloudwego/kitex v0.15.2
+	golang.org/x/crypto v0.22.0
 	gorm.io/gorm v1.31.1
 )
 

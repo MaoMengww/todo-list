@@ -17,7 +17,7 @@ struct RegisterRequest {
 
 struct RegisterResponse {
     1: model.RespBase base;
-    2: i32 userId;
+    2: i64 userId;
 }
 
 // 登录
@@ -33,7 +33,7 @@ struct LoginResponse {
 
 // 获取用户信息
 struct GetUserRequest {
-    1: i32 userId;
+    1: i64 userId;
 }
 
 struct GetUserResponse {
@@ -43,7 +43,7 @@ struct GetUserResponse {
 
 //改名
 struct UpdateusernameRequest {
-    1: i32 userId;
+    1: i64 userId;
     2: string username;
 }
 

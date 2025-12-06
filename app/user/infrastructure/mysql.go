@@ -8,7 +8,7 @@ import (
 )
 
 type UserModel struct {
-	Id       int32 `gorm:"primaryKey;autoIncrement"`
+	Id       int64 `gorm:"primaryKey;autoIncrement"`
 	Username string `gorm:"uniqueIndex;size:255"`
 	Password string  `gorm:"size:255"`
 }
@@ -23,18 +23,28 @@ func NewMysqlUserRepository(db *gorm.DB) *MysqlUserRepository {
 	}
 }
 
-func (r *MysqlUserRepository) Create(ctx context.Context, user *domain.User) error {
-	return r.DB.Create(user).Error
+func (r *MysqlUserRepository) Create(ctx context.Context, duser *domain.User) (int64, error) {
+	user := &UserModel{
+		Username: duser.Username,
+		Password: duser.Password,
+		Id:   duser.UserId,
+	}
+	result := r.DB.Create(user)
+	return user.Id, result.Error
 }
 
 
-func (r *MysqlUserRepository) GetById(ctx context.Context, userId string) (*domain.User, error) {
-	var user domain.User
-	err := r.DB.Where("user_id = ?", userId).First(&user).Error
-	if err != nil {
-		return nil, err
-	}
-	return &user, nil
+func (r *MysqlUserRepository) GetById(ctx context.Context, userId int32) (*domain.User, error) {
+    var userModel UserModel
+    err := r.DB.WithContext(ctx).Where("id = ?", userId).First(&userModel).Error
+    if err != nil {
+        return nil, err
+    }
+    return &domain.User{
+        UserId:   int64(userModel.Id),
+        Username: userModel.Username,
+        Password: userModel.Password,
+    }, nil
 }
 
 func (r *MysqlUserRepository) GetByUsername(ctx context.Context, username string) (*domain.User, error) {

@@ -16,11 +16,6 @@ type UserServiceImpl struct{
 // Register implements the UserServiceImpl interface.
 func (s *UserServiceImpl) Register(ctx context.Context, req *user.RegisterRequest) (resp *user.RegisterResponse, err error) {
 	resp = &user.RegisterResponse{}
-	user, err := s.usecase.GetByUsername(ctx, req.Name)
-	if err == nil && user != nil {
-		resp.Base = pack.NewBadResp(err)
-		return 
-	}
 	userID, err := s.usecase.Register(ctx, &domain.User{
 		Username: req.Name,
 		Password: req.Password,
@@ -38,12 +33,8 @@ func (s *UserServiceImpl) Register(ctx context.Context, req *user.RegisterReques
 // Login implements the UserServiceImpl interface.
 func (s *UserServiceImpl) Login(ctx context.Context, req *user.LoginRequest) (resp *user.LoginResponse, err error) {
 	resp = &user.LoginResponse{}
-	user,  err := s.usecase.GetByUsername(ctx, req.Name)
+	user, err := s.usecase.Login(ctx, req.Name, req.Password)
 	if err != nil {
-		resp.Base = pack.NewBadResp(err)
-		return
-	}
-	if user.Password != req.Password {
 		resp.Base = pack.NewBadResp(err)
 		return
 	}

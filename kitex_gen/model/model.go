@@ -45,7 +45,7 @@ var fieldIDToName_RespBase = map[int16]string{
 }
 
 type UserInfo struct {
-	UserId int32  `thrift:"userId,1" frugal:"1,default,i32" json:"userId"`
+	UserId int64  `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
 	Name   string `thrift:"name,2" frugal:"2,default,string" json:"name"`
 }
 
@@ -56,14 +56,14 @@ func NewUserInfo() *UserInfo {
 func (p *UserInfo) InitDefault() {
 }
 
-func (p *UserInfo) GetUserId() (v int32) {
+func (p *UserInfo) GetUserId() (v int64) {
 	return p.UserId
 }
 
 func (p *UserInfo) GetName() (v string) {
 	return p.Name
 }
-func (p *UserInfo) SetUserId(val int32) {
+func (p *UserInfo) SetUserId(val int64) {
 	p.UserId = val
 }
 func (p *UserInfo) SetName(val string) {

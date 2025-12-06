@@ -104,7 +104,7 @@ var fieldIDToName_RegisterRequest = map[int16]string{
 
 type RegisterResponse struct {
 	Base   *model.RespBase `thrift:"base,1" frugal:"1,default,model.RespBase" json:"base"`
-	UserId int32           `thrift:"userId,2" frugal:"2,default,i32" json:"userId"`
+	UserId int64           `thrift:"userId,2" frugal:"2,default,i64" json:"userId"`
 }
 
 func NewRegisterResponse() *RegisterResponse {
@@ -123,13 +123,13 @@ func (p *RegisterResponse) GetBase() (v *model.RespBase) {
 	return p.Base
 }
 
-func (p *RegisterResponse) GetUserId() (v int32) {
+func (p *RegisterResponse) GetUserId() (v int64) {
 	return p.UserId
 }
 func (p *RegisterResponse) SetBase(val *model.RespBase) {
 	p.Base = val
 }
-func (p *RegisterResponse) SetUserId(val int32) {
+func (p *RegisterResponse) SetUserId(val int64) {
 	p.UserId = val
 }
 
@@ -244,7 +244,7 @@ var fieldIDToName_LoginResponse = map[int16]string{
 }
 
 type GetUserRequest struct {
-	UserId int32 `thrift:"userId,1" frugal:"1,default,i32" json:"userId"`
+	UserId int64 `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
 }
 
 func NewGetUserRequest() *GetUserRequest {
@@ -254,10 +254,10 @@ func NewGetUserRequest() *GetUserRequest {
 func (p *GetUserRequest) InitDefault() {
 }
 
-func (p *GetUserRequest) GetUserId() (v int32) {
+func (p *GetUserRequest) GetUserId() (v int64) {
 	return p.UserId
 }
-func (p *GetUserRequest) SetUserId(val int32) {
+func (p *GetUserRequest) SetUserId(val int64) {
 	p.UserId = val
 }
 
@@ -329,7 +329,7 @@ var fieldIDToName_GetUserResponse = map[int16]string{
 }
 
 type UpdateusernameRequest struct {
-	UserId   int32  `thrift:"userId,1" frugal:"1,default,i32" json:"userId"`
+	UserId   int64  `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
 	Username string `thrift:"username,2" frugal:"2,default,string" json:"username"`
 }
 
@@ -340,14 +340,14 @@ func NewUpdateusernameRequest() *UpdateusernameRequest {
 func (p *UpdateusernameRequest) InitDefault() {
 }
 
-func (p *UpdateusernameRequest) GetUserId() (v int32) {
+func (p *UpdateusernameRequest) GetUserId() (v int64) {
 	return p.UserId
 }
 
 func (p *UpdateusernameRequest) GetUsername() (v string) {
 	return p.Username
 }
-func (p *UpdateusernameRequest) SetUserId(val int32) {
+func (p *UpdateusernameRequest) SetUserId(val int64) {
 	p.UserId = val
 }
 func (p *UpdateusernameRequest) SetUsername(val string) {

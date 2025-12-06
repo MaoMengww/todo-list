@@ -6,6 +6,6 @@ struct RespBase {
 }
 
 struct userInfo {
-    1: i32 userId;
+    1: i64 userId;
     2: string name;
 }
