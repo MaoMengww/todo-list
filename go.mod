@@ -3,11 +3,11 @@ module todo-list
 go 1.25.1
 
 require (
-	github.com/apache/thrift v0.16.0
 	github.com/bytedance/gopkg v0.1.3
 	github.com/cloudwego/gopkg v0.1.7
 	github.com/cloudwego/hertz v0.10.3
 	github.com/cloudwego/kitex v0.15.2
+	github.com/golang-jwt/jwt/v4 v4.5.2
 	github.com/kitex-contrib/obs-opentelemetry v0.3.0
 	github.com/kitex-contrib/registry-etcd v0.3.0
 	github.com/spf13/viper v1.21.0

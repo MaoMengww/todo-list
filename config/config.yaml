@@ -22,3 +22,6 @@ etcd:
 
 jaeger:
   address: localhost:6831
+
+jwt:
+  secret: Mao-Meng

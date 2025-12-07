@@ -39,6 +39,7 @@ func (uc *UserUseCase) Login(ctx context.Context, username string, password stri
 	if err != nil {
 		return nil, err
 	}
+	
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
 		return nil, errors.New("密码错误")

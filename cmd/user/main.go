@@ -5,23 +5,27 @@ import (
 	"log"
 	"net"
 	"todo-list/app/user"
+	"todo-list/config"
 	"todo-list/pkg/common"
 	"todo-list/pkg/middleware"
+
+	"todo-list/kitex_gen/user/userservice"
 
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
 	"github.com/kitex-contrib/obs-opentelemetry/tracing"
-	"todo-list/kitex_gen/user/userservice"
 	"github.com/kitex-contrib/registry-etcd"
 	"github.com/spf13/viper"
 )
 func main() {
+	config.Init()
+
 	shutdown := common.InitTracing("user")
 	defer shutdown(context.Background())
 
 
 	userService := user.UserInit()
-	r, err := etcd.NewEtcdRegistry([]string{viper.GetString("etcd.address")})
+	r, err := etcd.NewEtcdRegistry(viper.GetStringSlice("etcd.endpoints"))
 	if err != nil {
 		log.Fatalf("服务注册失败: %v", err)
 	}

@@ -64,7 +64,8 @@ func Init() {
 	viper.SetConfigType("yaml")
 	// 设置查找路径
 	viper.AddConfigPath(filepath.Join(workDir, "config")) 
-	viper.AddConfigPath(workDir)                          
+	viper.AddConfigPath(workDir)      
+	viper.AddConfigPath(filepath.Join(workDir, "../../config"))                    
 
 	// 读取配置
 	if err := viper.ReadInConfig(); err != nil {
