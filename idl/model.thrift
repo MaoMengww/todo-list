@@ -18,5 +18,5 @@ struct todoInfo {
     5: i64 userId;
     6: string createdAt;
     7: string diedAt;
-    8: i32 priority;
+    8: i64 priority;
 }

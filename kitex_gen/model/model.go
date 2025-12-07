@@ -81,3 +81,95 @@ var fieldIDToName_UserInfo = map[int16]string{
 	1: "userId",
 	2: "name",
 }
+
+type TodoInfo struct {
+	Id        int64  `thrift:"id,1" frugal:"1,default,i64" json:"id"`
+	Title     string `thrift:"title,2" frugal:"2,default,string" json:"title"`
+	Content   string `thrift:"content,3" frugal:"3,default,string" json:"content"`
+	Completed bool   `thrift:"completed,4" frugal:"4,default,bool" json:"completed"`
+	UserId    int64  `thrift:"userId,5" frugal:"5,default,i64" json:"userId"`
+	CreatedAt string `thrift:"createdAt,6" frugal:"6,default,string" json:"createdAt"`
+	DiedAt    string `thrift:"diedAt,7" frugal:"7,default,string" json:"diedAt"`
+	Priority  int64  `thrift:"priority,8" frugal:"8,default,i64" json:"priority"`
+}
+
+func NewTodoInfo() *TodoInfo {
+	return &TodoInfo{}
+}
+
+func (p *TodoInfo) InitDefault() {
+}
+
+func (p *TodoInfo) GetId() (v int64) {
+	return p.Id
+}
+
+func (p *TodoInfo) GetTitle() (v string) {
+	return p.Title
+}
+
+func (p *TodoInfo) GetContent() (v string) {
+	return p.Content
+}
+
+func (p *TodoInfo) GetCompleted() (v bool) {
+	return p.Completed
+}
+
+func (p *TodoInfo) GetUserId() (v int64) {
+	return p.UserId
+}
+
+func (p *TodoInfo) GetCreatedAt() (v string) {
+	return p.CreatedAt
+}
+
+func (p *TodoInfo) GetDiedAt() (v string) {
+	return p.DiedAt
+}
+
+func (p *TodoInfo) GetPriority() (v int64) {
+	return p.Priority
+}
+func (p *TodoInfo) SetId(val int64) {
+	p.Id = val
+}
+func (p *TodoInfo) SetTitle(val string) {
+	p.Title = val
+}
+func (p *TodoInfo) SetContent(val string) {
+	p.Content = val
+}
+func (p *TodoInfo) SetCompleted(val bool) {
+	p.Completed = val
+}
+func (p *TodoInfo) SetUserId(val int64) {
+	p.UserId = val
+}
+func (p *TodoInfo) SetCreatedAt(val string) {
+	p.CreatedAt = val
+}
+func (p *TodoInfo) SetDiedAt(val string) {
+	p.DiedAt = val
+}
+func (p *TodoInfo) SetPriority(val int64) {
+	p.Priority = val
+}
+
+func (p *TodoInfo) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("TodoInfo(%+v)", *p)
+}
+
+var fieldIDToName_TodoInfo = map[int16]string{
+	1: "id",
+	2: "title",
+	3: "content",
+	4: "completed",
+	5: "userId",
+	6: "createdAt",
+	7: "diedAt",
+	8: "priority",
+}

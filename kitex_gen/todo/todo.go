@@ -16,7 +16,7 @@ type Todo struct {
 	UserId    int64  `thrift:"userId,5" frugal:"5,default,i64" json:"userId"`
 	CreatedAt string `thrift:"createdAt,6" frugal:"6,default,string" json:"createdAt"`
 	DiedAt    string `thrift:"diedAt,7" frugal:"7,default,string" json:"diedAt"`
-	Priority  int32  `thrift:"priority,8" frugal:"8,default,i32" json:"priority"`
+	Priority  int64  `thrift:"priority,8" frugal:"8,default,i64" json:"priority"`
 }
 
 func NewTodo() *Todo {
@@ -54,7 +54,7 @@ func (p *Todo) GetDiedAt() (v string) {
 	return p.DiedAt
 }
 
-func (p *Todo) GetPriority() (v int32) {
+func (p *Todo) GetPriority() (v int64) {
 	return p.Priority
 }
 func (p *Todo) SetId(val int64) {
@@ -78,7 +78,7 @@ func (p *Todo) SetCreatedAt(val string) {
 func (p *Todo) SetDiedAt(val string) {
 	p.DiedAt = val
 }
-func (p *Todo) SetPriority(val int32) {
+func (p *Todo) SetPriority(val int64) {
 	p.Priority = val
 }
 
