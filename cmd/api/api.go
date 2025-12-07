@@ -8,7 +8,7 @@ import (
 
 func main() {
 	config.Init()
-
+	grpc.TodoInit()
 	grpc.UserInit()
 	router.Init()
 }

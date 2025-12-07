@@ -19,7 +19,7 @@ func Init() {
 	}
 	todo := h.Group("/api/v1/todo", middleware.JWTAuthMiddleware())
 	{
-		todo.POST("/create", handler.AddTodoHandler)
+		todo.POST("/get", handler.AddTodoHandler)
 		todo.GET("/list", handler.ListTodosHandler)
 		todo.PUT("/update", handler.UpdateTodoHandler)
 		todo.DELETE("/delete", handler.DeleteTodoHandler)

@@ -18,7 +18,9 @@ func AddTodoHandler(c context.Context, ctx *app.RequestContext) {
 		})
 		return
 	}
-
+	if uID, exists := ctx.Get("userId"); exists {
+        req.UserId = uID.(int64) 
+    }
 	resp, err := rpc.TodoClient.AddTodo(c, &req)
 	if err != nil {
 		ctx.JSON(500, map[string]string{
