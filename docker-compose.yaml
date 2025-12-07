@@ -48,3 +48,45 @@ services:
       - "4317:4317"
     networks:
       - demo
+  
+  
+  elasticsearch:
+    image: elasticsearch:8.17.0
+    container_name: es_container
+    restart: always
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ${DATA_PATH_HOST}/elasticsearch:/usr/share/elasticsearch/data
+    networks:
+      - demo
+  kibana:
+    image: kibana:8.17.0
+    container_name: kb_container
+    environment:
+      # 6. 修正 Kibana，指向两个服务名
+      - ELASTICSEARCH_HOSTS=["http://es_container:9200"]
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch # 7. 修正 depends_on
+    networks:
+      - demo
+    
+  filebeat:
+    image: elastic/filebeat:8.17.0
+    container_name: todo-filebeat
+    user: root
+    volumes:
+      - ./config/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml # 挂载配置文件
+      - ${DATA_PATH_HOST}/filebeat:/usr/share/filebeat/data  # 持久化注册表文件
+      - ./pkg/logger/logs:/usr/share/filebeat/logs  # 挂载日志目录
+    depends_on:
+      - elasticsearch
+    restart: on-failure
+    networks:
+      - demo
