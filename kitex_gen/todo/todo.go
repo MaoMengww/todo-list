@@ -9,11 +9,11 @@ import (
 )
 
 type Todo struct {
-	Id        int32  `thrift:"id,1" frugal:"1,default,i32" json:"id"`
+	Id        int64  `thrift:"id,1" frugal:"1,default,i64" json:"id"`
 	Title     string `thrift:"title,2" frugal:"2,default,string" json:"title"`
 	Content   string `thrift:"content,3" frugal:"3,default,string" json:"content"`
 	Completed bool   `thrift:"completed,4" frugal:"4,default,bool" json:"completed"`
-	UserId    int32  `thrift:"userId,5" frugal:"5,default,i32" json:"userId"`
+	UserId    int64  `thrift:"userId,5" frugal:"5,default,i64" json:"userId"`
 	CreatedAt string `thrift:"createdAt,6" frugal:"6,default,string" json:"createdAt"`
 	DiedAt    string `thrift:"diedAt,7" frugal:"7,default,string" json:"diedAt"`
 	Priority  int32  `thrift:"priority,8" frugal:"8,default,i32" json:"priority"`
@@ -26,7 +26,7 @@ func NewTodo() *Todo {
 func (p *Todo) InitDefault() {
 }
 
-func (p *Todo) GetId() (v int32) {
+func (p *Todo) GetId() (v int64) {
 	return p.Id
 }
 
@@ -42,7 +42,7 @@ func (p *Todo) GetCompleted() (v bool) {
 	return p.Completed
 }
 
-func (p *Todo) GetUserId() (v int32) {
+func (p *Todo) GetUserId() (v int64) {
 	return p.UserId
 }
 
@@ -57,7 +57,7 @@ func (p *Todo) GetDiedAt() (v string) {
 func (p *Todo) GetPriority() (v int32) {
 	return p.Priority
 }
-func (p *Todo) SetId(val int32) {
+func (p *Todo) SetId(val int64) {
 	p.Id = val
 }
 func (p *Todo) SetTitle(val string) {
@@ -69,7 +69,7 @@ func (p *Todo) SetContent(val string) {
 func (p *Todo) SetCompleted(val bool) {
 	p.Completed = val
 }
-func (p *Todo) SetUserId(val int32) {
+func (p *Todo) SetUserId(val int64) {
 	p.UserId = val
 }
 func (p *Todo) SetCreatedAt(val string) {
@@ -103,9 +103,9 @@ var fieldIDToName_Todo = map[int16]string{
 type AddTodoRequest struct {
 	Title    string `thrift:"title,1" frugal:"1,default,string" json:"title"`
 	Content  string `thrift:"content,2" frugal:"2,default,string" json:"content"`
-	UserId   int32  `thrift:"userId,3" frugal:"3,default,i32" json:"userId"`
+	UserId   int64  `thrift:"userId,3" frugal:"3,default,i64" json:"userId"`
 	DiedAt   string `thrift:"diedAt,4" frugal:"4,default,string" json:"diedAt"`
-	Priority int32  `thrift:"priority,5" frugal:"5,default,i32" json:"priority"`
+	Priority int64  `thrift:"priority,5" frugal:"5,default,i64" json:"priority"`
 }
 
 func NewAddTodoRequest() *AddTodoRequest {
@@ -123,7 +123,7 @@ func (p *AddTodoRequest) GetContent() (v string) {
 	return p.Content
 }
 
-func (p *AddTodoRequest) GetUserId() (v int32) {
+func (p *AddTodoRequest) GetUserId() (v int64) {
 	return p.UserId
 }
 
@@ -131,7 +131,7 @@ func (p *AddTodoRequest) GetDiedAt() (v string) {
 	return p.DiedAt
 }
 
-func (p *AddTodoRequest) GetPriority() (v int32) {
+func (p *AddTodoRequest) GetPriority() (v int64) {
 	return p.Priority
 }
 func (p *AddTodoRequest) SetTitle(val string) {
@@ -140,13 +140,13 @@ func (p *AddTodoRequest) SetTitle(val string) {
 func (p *AddTodoRequest) SetContent(val string) {
 	p.Content = val
 }
-func (p *AddTodoRequest) SetUserId(val int32) {
+func (p *AddTodoRequest) SetUserId(val int64) {
 	p.UserId = val
 }
 func (p *AddTodoRequest) SetDiedAt(val string) {
 	p.DiedAt = val
 }
-func (p *AddTodoRequest) SetPriority(val int32) {
+func (p *AddTodoRequest) SetPriority(val int64) {
 	p.Priority = val
 }
 
@@ -166,7 +166,7 @@ var fieldIDToName_AddTodoRequest = map[int16]string{
 }
 
 type AddTodoResponse struct {
-	Id   int32           `thrift:"id,1" frugal:"1,default,i32" json:"id"`
+	Id   int64           `thrift:"id,1" frugal:"1,default,i64" json:"id"`
 	Base *model.RespBase `thrift:"base,2" frugal:"2,default,model.RespBase" json:"base"`
 }
 
@@ -177,7 +177,7 @@ func NewAddTodoResponse() *AddTodoResponse {
 func (p *AddTodoResponse) InitDefault() {
 }
 
-func (p *AddTodoResponse) GetId() (v int32) {
+func (p *AddTodoResponse) GetId() (v int64) {
 	return p.Id
 }
 
@@ -189,7 +189,7 @@ func (p *AddTodoResponse) GetBase() (v *model.RespBase) {
 	}
 	return p.Base
 }
-func (p *AddTodoResponse) SetId(val int32) {
+func (p *AddTodoResponse) SetId(val int64) {
 	p.Id = val
 }
 func (p *AddTodoResponse) SetBase(val *model.RespBase) {
@@ -213,7 +213,7 @@ var fieldIDToName_AddTodoResponse = map[int16]string{
 }
 
 type DeleteTodoRequest struct {
-	Id int32 `thrift:"id,1" frugal:"1,default,i32" json:"id"`
+	Id int64 `thrift:"id,1" frugal:"1,default,i64" json:"id"`
 }
 
 func NewDeleteTodoRequest() *DeleteTodoRequest {
@@ -223,10 +223,10 @@ func NewDeleteTodoRequest() *DeleteTodoRequest {
 func (p *DeleteTodoRequest) InitDefault() {
 }
 
-func (p *DeleteTodoRequest) GetId() (v int32) {
+func (p *DeleteTodoRequest) GetId() (v int64) {
 	return p.Id
 }
-func (p *DeleteTodoRequest) SetId(val int32) {
+func (p *DeleteTodoRequest) SetId(val int64) {
 	p.Id = val
 }
 
@@ -289,12 +289,12 @@ var fieldIDToName_DeleteTodoResponse = map[int16]string{
 }
 
 type UpdateTodoRequest struct {
-	Id        int32   `thrift:"id,1" frugal:"1,default,i32" json:"id"`
+	Id        int64   `thrift:"id,1" frugal:"1,default,i64" json:"id"`
 	Title     *string `thrift:"title,2,optional" frugal:"2,optional,string" json:"title,omitempty"`
 	Content   *string `thrift:"content,3,optional" frugal:"3,optional,string" json:"content,omitempty"`
 	Completed *bool   `thrift:"completed,4,optional" frugal:"4,optional,bool" json:"completed,omitempty"`
 	DiedAt    *string `thrift:"diedAt,5,optional" frugal:"5,optional,string" json:"diedAt,omitempty"`
-	Priority  *int32  `thrift:"priority,6,optional" frugal:"6,optional,i32" json:"priority,omitempty"`
+	Priority  *int64  `thrift:"priority,6,optional" frugal:"6,optional,i64" json:"priority,omitempty"`
 }
 
 func NewUpdateTodoRequest() *UpdateTodoRequest {
@@ -304,7 +304,7 @@ func NewUpdateTodoRequest() *UpdateTodoRequest {
 func (p *UpdateTodoRequest) InitDefault() {
 }
 
-func (p *UpdateTodoRequest) GetId() (v int32) {
+func (p *UpdateTodoRequest) GetId() (v int64) {
 	return p.Id
 }
 
@@ -344,15 +344,15 @@ func (p *UpdateTodoRequest) GetDiedAt() (v string) {
 	return *p.DiedAt
 }
 
-var UpdateTodoRequest_Priority_DEFAULT int32
+var UpdateTodoRequest_Priority_DEFAULT int64
 
-func (p *UpdateTodoRequest) GetPriority() (v int32) {
+func (p *UpdateTodoRequest) GetPriority() (v int64) {
 	if !p.IsSetPriority() {
 		return UpdateTodoRequest_Priority_DEFAULT
 	}
 	return *p.Priority
 }
-func (p *UpdateTodoRequest) SetId(val int32) {
+func (p *UpdateTodoRequest) SetId(val int64) {
 	p.Id = val
 }
 func (p *UpdateTodoRequest) SetTitle(val *string) {
@@ -367,7 +367,7 @@ func (p *UpdateTodoRequest) SetCompleted(val *bool) {
 func (p *UpdateTodoRequest) SetDiedAt(val *string) {
 	p.DiedAt = val
 }
-func (p *UpdateTodoRequest) SetPriority(val *int32) {
+func (p *UpdateTodoRequest) SetPriority(val *int64) {
 	p.Priority = val
 }
 
@@ -446,7 +446,7 @@ var fieldIDToName_UpdateTodoResponse = map[int16]string{
 }
 
 type GetTodoRequest struct {
-	Id int32 `thrift:"id,1" frugal:"1,default,i32" json:"id"`
+	Id int64 `thrift:"id,1" frugal:"1,default,i64" json:"id"`
 }
 
 func NewGetTodoRequest() *GetTodoRequest {
@@ -456,10 +456,10 @@ func NewGetTodoRequest() *GetTodoRequest {
 func (p *GetTodoRequest) InitDefault() {
 }
 
-func (p *GetTodoRequest) GetId() (v int32) {
+func (p *GetTodoRequest) GetId() (v int64) {
 	return p.Id
 }
-func (p *GetTodoRequest) SetId(val int32) {
+func (p *GetTodoRequest) SetId(val int64) {
 	p.Id = val
 }
 
@@ -531,7 +531,7 @@ var fieldIDToName_GetTodoResponse = map[int16]string{
 }
 
 type ListTodoRequest struct {
-	UserId int32 `thrift:"userId,1" frugal:"1,default,i32" json:"userId"`
+	UserId int64 `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
 }
 
 func NewListTodoRequest() *ListTodoRequest {
@@ -541,10 +541,10 @@ func NewListTodoRequest() *ListTodoRequest {
 func (p *ListTodoRequest) InitDefault() {
 }
 
-func (p *ListTodoRequest) GetUserId() (v int32) {
+func (p *ListTodoRequest) GetUserId() (v int64) {
 	return p.UserId
 }
-func (p *ListTodoRequest) SetUserId(val int32) {
+func (p *ListTodoRequest) SetUserId(val int64) {
 	p.UserId = val
 }
 

@@ -3,11 +3,11 @@ namespace go todo
 include "model.thrift"
 
 struct Todo {
-    1: i32 id;
+    1: i64 id;
     2: string title;
     3: string content;
     4: bool completed;
-    5: i32 userId;
+    5: i64 userId;
     6: string createdAt;
     7: string diedAt;
     8: i32 priority;
@@ -17,20 +17,20 @@ struct Todo {
 struct AddTodoRequest {
     1: string title;
     2: string content;
-    3: i32 userId;
+    3: i64 userId;
     4: string diedAt;
-    5: i32 priority;
+    5: i64 priority;
 }
 
 //增加Todo响应
 struct AddTodoResponse {
-    1: i32 id;
+    1: i64 id;
     2: model.RespBase base;
 }
 
 //删除todo请求
 struct DeleteTodoRequest {
-    1: i32 id;
+    1: i64 id;
 }
 
 //删除todo响应
@@ -41,12 +41,12 @@ struct DeleteTodoResponse {
 
 //更新todo请求
 struct UpdateTodoRequest {
-    1: i32 id;
+    1: i64 id;
     2: optional string title;
     3: optional string content;
     4: optional bool completed;
     5: optional string diedAt;
-    6: optional i32 priority;
+    6: optional i64 priority;
 }
 
 //更新todo响应
@@ -56,7 +56,7 @@ struct UpdateTodoResponse {
 
 //获取todo请求
 struct GetTodoRequest {
-    1: i32 id;
+    1: i64 id;
 }     
 
 //获取todo响应
@@ -67,7 +67,7 @@ struct GetTodoResponse {
 
 //列出todo请求
 struct ListTodoRequest {
-    1: i32 userId;
+    1: i64 userId;
 }
 
 //列出todo响应  

@@ -9,3 +9,14 @@ struct userInfo {
     1: i64 userId;
     2: string name;
 }
+
+struct todoInfo {
+    1: i64 id;
+    2: string title;
+    3: string content;
+    4: bool completed;
+    5: i64 userId;
+    6: string createdAt;
+    7: string diedAt;
+    8: i32 priority;
+}

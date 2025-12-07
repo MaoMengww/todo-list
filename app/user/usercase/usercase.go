@@ -16,6 +16,8 @@ func NewUserUseCase(repo domain.UserRepository) *UserUseCase {
 	return &UserUseCase{repo: repo}
 }
 
+
+//注册
 func (uc *UserUseCase) Register(ctx context.Context, user *domain.User) (int64, error) {
 	existUser, err := uc.repo.GetByUsername(ctx, user.Username)
 	if err == nil && existUser != nil {
@@ -31,6 +33,7 @@ func (uc *UserUseCase) Register(ctx context.Context, user *domain.User) (int64, 
 	return uc.repo.Create(ctx, user)
 }
 
+//登录
 func (uc *UserUseCase) Login(ctx context.Context, username string, password string) (*domain.User, error) {
 	user, err := uc.repo.GetByUsername(ctx, username)
 	if err != nil {

@@ -41,6 +41,12 @@ struct GetUserResponse {
     2: model.RespBase base;
 }
 
+
+struct GetByUsernameResponse {
+    1: model.userInfo info;
+    2: model.RespBase base;
+}
+
 //改名
 struct UpdateusernameRequest {
     1: i64 userId;
