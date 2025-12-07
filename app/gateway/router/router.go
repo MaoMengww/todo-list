@@ -15,7 +15,7 @@ func Init() {
 		user.POST("/login", handler.LoginHandler)
 		user.GET("/info", handler.UserInfoHandler)
 	}
-	fmt.Println("Gateway  is running on :8080")
+	fmt.Println("Gateway  is running on :8888")
 	h.Spin()
 
 }
