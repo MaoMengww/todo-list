@@ -88,7 +88,7 @@ services:
     volumes:
       - ./config/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml # 挂载配置文件
       - ${DATA_PATH_HOST}/filebeat:/usr/share/filebeat/data  # 持久化注册表文件
-      - ./pkg/logger/logs:/usr/share/filebeat/logs  # 挂载日志目录
+      - ./logs:/usr/share/filebeat/logs  # 挂载日志目录
     depends_on:
       - elasticsearch
     restart: on-failure
