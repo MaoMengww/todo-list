@@ -2,10 +2,10 @@ package todo
 
 import (
 	"fmt"
-	"log"
 	"todo-list/app/todo/controllers/rpc"
 	"todo-list/app/todo/infrastructure"
 	"todo-list/app/todo/usecase"
+	"todo-list/pkg/logger"
 
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
@@ -24,13 +24,13 @@ func TodoInit() *rpc.TodoServiceImpl {
 	)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatalf("Error connecting to database: %s", err)
+		logger.Fatalf("Error connecting to database: %s", err)
 	}
 	if err = db.Use(tracing.NewPlugin()); err != nil {
-		log.Fatalf("Error using tracing plugin: %s", err)
+		logger.Fatalf("Error using tracing plugin: %s", err)
 	}
 	if err := db.AutoMigrate(&infrastructure.TodoModel{}); err != nil {
-		log.Fatalf("Error migrating database: %s", err)
+		logger.Fatalf("Error migrating database: %s", err)
 	}
 	todoRepo := infrastructure.NewMysqlTodoRepository(db)
 	todoHandler := usecase.NewUsecase(todoRepo)
