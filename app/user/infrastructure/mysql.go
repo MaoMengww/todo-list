@@ -33,14 +33,14 @@ func (r *MysqlUserRepository) Create(ctx context.Context, duser *domain.User) (i
 		Password: duser.Password,
 		Id:   duser.UserId,
 	}
-	result := r.DB.Create(user)
+	result := r.DB.WithContext(ctx).Create(user)
 	return user.Id, result.Error
 }
 
 
 func (r *MysqlUserRepository) GetById(ctx context.Context, userId int64) (*domain.User, error) {
     var userModel UserModel
-    err := r.DB.WithContext(ctx).Where("id = ?", userId).First(&userModel).Error
+    err := r.DB.WithContext(ctx).WithContext(ctx).Where("id = ?", userId).First(&userModel).Error
     if err != nil {
         return nil, err
     }
@@ -53,7 +53,7 @@ func (r *MysqlUserRepository) GetById(ctx context.Context, userId int64) (*domai
 
 func (r *MysqlUserRepository) GetByUsername(ctx context.Context, username string) (*domain.User, error) {
 	var user UserModel
-	err := r.DB.Where("username = ?", username).First(&user).Error
+	err := r.DB.WithContext(ctx).Where("username = ?", username).First(&user).Error
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func (r *MysqlUserRepository) GetByUsername(ctx context.Context, username string
 }
 
 func (r *MysqlUserRepository) UpdateUsername(ctx context.Context, uid int64, username string) error {
-    return r.DB.WithContext(ctx).
+    return r.DB.WithContext(ctx).WithContext(ctx).
         Model(&UserModel{}).
         Where("id = ?", uid).
         Update("username", username).Error

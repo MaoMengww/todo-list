@@ -10,6 +10,7 @@ func InitTracing(serviceName string) func(context.Context) {
 		provider.WithServiceName(serviceName),
 		provider.WithExportEndpoint("localhost:4317"),
 		provider.WithInsecure(),
+		provider.WithEnableMetrics(false),
 	)
 
 	return  func(ctx context.Context) {

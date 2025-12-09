@@ -7,6 +7,7 @@ import (
 	"todo-list/app/user"
 	"todo-list/config"
 	"todo-list/pkg/common"
+	"todo-list/pkg/logger"
 	"todo-list/pkg/middleware"
 
 	"todo-list/kitex_gen/user/userservice"
@@ -19,7 +20,7 @@ import (
 )
 func main() {
 	config.Init()
-
+	logger.InitLogger()
 	shutdown := common.InitTracing("user")
 	defer shutdown(context.Background())
 

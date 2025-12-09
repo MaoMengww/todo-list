@@ -2,7 +2,7 @@ package user
 
 import (
 	"fmt"
-	"log"
+	"todo-list/pkg/logger"
 	"todo-list/app/user/controllers/rpc"
 	"todo-list/app/user/infrastructure"
 	"todo-list/app/user/usercase"
@@ -24,15 +24,15 @@ func UserInit() *rpc.UserServiceImpl {
 	)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatalf("Error connecting to database: %s", err)
+		logger.Fatalf("Error connecting to database: %s", err)
 	}
 
 	if err = db.Use(tracing.NewPlugin()); err != nil {
-		log.Fatalf("Error using tracing plugin: %s", err)
+		logger.Fatalf("Error using tracing plugin: %s", err)
 	}
 	
 	if err := db.AutoMigrate(&infrastructure.UserModel{}); err != nil {
-		log.Fatalf("Error migrating database: %s", err)
+		logger.Fatalf("Error migrating database: %s", err)
 	}
 	userRepo := infrastructure.NewMysqlUserRepository(db)
 	userHaddler := usercase.NewUserUseCase(userRepo)

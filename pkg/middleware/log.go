@@ -3,15 +3,16 @@ package middleware
 import (
 	"context"
 	"time"
+	"todo-list/pkg/logger"
 
-	"github.com/cloudwego/kitex/pkg/endpoint"
-	"github.com/cloudwego/kitex/pkg/klog"
-	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/bytedance/gopkg/cloud/metainfo"
+	"github.com/cloudwego/kitex/pkg/endpoint"
+	"github.com/cloudwego/kitex/pkg/rpcinfo"
 )
 
 var ServerLogMiddleware endpoint.Middleware = func(next endpoint.Endpoint) endpoint.Endpoint {
 	return func(ctx context.Context, req, resp interface{}) (err error) {
+		logger.InitLogger()
 		start := time.Now()
 		//获取rpc基本信息(例如调用的方法)
 		ri := rpcinfo.GetRPCInfo(ctx)
@@ -25,16 +26,16 @@ var ServerLogMiddleware endpoint.Middleware = func(next endpoint.Endpoint) endpo
 			logId = "none"
 		}
 
-		klog.Infof("[%v] RPC Request | Method : %s | Req : %v", logId, method, req)
+		logger.Infof("[%v] RPC Request | Method : %s | Req : %v", logId, method, req)
 
 		//执行下一个中间件或最终的Handler
 		err = next(ctx, req , resp)
 
 		cost := time.Since(start)
 		if err != nil {
-			klog.Errorf("[%v] RPC Error | Method : %s | Cost : %v | Err : %v", logId, method, cost, err)
+			logger.Errorf("[%v] RPC Error | Method : %s | Cost : %v | Err : %v", logId, method, cost, err)
 		} else {
-			klog.Infof("[%v] RPC Success | Method : %s | Cost : %v | Resp : %v", logId, method, cost, resp)
+			logger.Infof("[%v] RPC Success | Method : %s | Cost : %v | Resp : %v", logId, method, cost, resp)
 		}
 		return err
 	} 
@@ -42,10 +43,11 @@ var ServerLogMiddleware endpoint.Middleware = func(next endpoint.Endpoint) endpo
 // ClientLogMiddleware 客户端日志中间件
 var ClientLogMiddleware endpoint.Middleware = func(next endpoint.Endpoint) endpoint.Endpoint {
 	return func(ctx context.Context, req, resp interface{}) (err error) {
-		klog.Infof("Client Sending Request: %+v", req)
+		logger.InitLogger()
+		logger.Infof("Client Sending Request: %+v", req)
 		err = next(ctx, req, resp)
 		if err != nil {
-			klog.Warnf("Client Recv Error: %v", err)
+			logger.Warnf("Client Recv Error: %v", err)
 		}
 		return err
 	}

@@ -1,7 +1,7 @@
 package rpc
 
 import (
-	"log"
+	"todo-list/pkg/logger"
 	"time"
 	"todo-list/kitex_gen/user/userservice"
 	"todo-list/pkg/middleware"
@@ -20,7 +20,7 @@ var UserClient userservice.Client
 func UserInit() {
 	r, err := etcd.NewEtcdResolver([]string{"127.0.0.1:2379"})
 	if err != nil {
-		log.Fatalf("calc rpc Init Falied: err: %v", err)
+		logger.Fatalf("calc rpc Init Falied: err: %v", err)
 	}
 
 	cbSuite := circuitbreak.NewCBSuite(func(ri rpcinfo.RPCInfo) string {
@@ -39,7 +39,7 @@ func UserInit() {
 	)
 
 	if err != nil {
-		log.Fatalf("init client failed: err:%v", err)
+		logger.Fatalf("init client failed: err:%v", err)
 	}
 
 	UserClient = c

@@ -1,6 +1,6 @@
 蓝山作业    
 其实是正好想写点东西练手,主要任务是熟悉架构,因此业务逻辑方面细碎, 最低限度满足作业要求而已,什么都没有可以说      
-采用了kitex,主要参考了[TomTok](https://github.com/west2-online/DomTok.git),因为考虑到不了解用hertz脚手架写网关,可能会费时间,因此放弃了把网关做成服务    
+采用了kitex,主要参考了![TomTok](https://github.com/west2-online/DomTok.git),因为考虑到不了解用hertz脚手架写网关,可能会费时间,因此放弃了把网关做成服务    
 在单个服务方面用了整洁架构解耦,其实为了简单以及能力问题,还是没有写的很好      
 用了kitex, hertz, sentinel, jaeger, etcd, mysql, jwt等,我超,有几个我写上去都害臊,以后推进    
 意义: 第一次实现了全linux环境下变成, 熟悉了微服务框架以及很感兴趣的整洁架构(不出意外的话,考核准备用更完善的这个架构写), 熟悉了git规范, 积累了敲代码经验

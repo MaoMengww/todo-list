@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"log"
+	"todo-list/pkg/logger"
 	"net"
 	"todo-list/app/todo"
 	"todo-list/config"
@@ -19,7 +19,7 @@ import (
 )
 func main() {
 	config.Init()
-
+	logger.InitLogger()
 	shutdown := common.InitTracing("todo")
 	defer shutdown(context.Background())
 
@@ -27,7 +27,7 @@ func main() {
 	todoService := todo.TodoInit()
 	r, err := etcd.NewEtcdRegistry(viper.GetStringSlice("etcd.endpoints"))
 	if err != nil {
-		log.Fatalf("服务注册失败: %v", err)
+		logger.Fatalf("服务注册失败: %v", err)
 	}
 	addr, _ := net.ResolveTCPAddr("tcp", viper.GetString("server.todo.address"))
 	svr := todoservice.NewServer(
