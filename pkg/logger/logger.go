@@ -1,8 +1,10 @@
 package logger
 
 import (
+	"context"
 	"os"
 
+	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
@@ -74,6 +76,15 @@ func getWriteSyncer(file string) zapcore.WriteSyncer {
 		Compress:   true, // 是否压缩
 	}
 	return zapcore.AddSync(lumberJackLogger)
+}
+
+func WithContext(ctx context.Context) *zap.SugaredLogger {
+	span := trace.SpanFromContext(ctx)
+	if span.SpanContext().IsValid() {
+		// 这里的 "trace_id" 是 Kibana 里的字段名，你可以改成 "traceID" 或其他
+		return logger.With("trace_id", span.SpanContext().TraceID().String())
+	}
+	return logger
 }
 
 

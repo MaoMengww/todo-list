@@ -12,7 +12,7 @@ import (
 
 var ServerLogMiddleware endpoint.Middleware = func(next endpoint.Endpoint) endpoint.Endpoint {
 	return func(ctx context.Context, req, resp interface{}) (err error) {
-		logger.InitLogger()
+		log := logger.WithContext(ctx)
 		start := time.Now()
 		//获取rpc基本信息(例如调用的方法)
 		ri := rpcinfo.GetRPCInfo(ctx)
@@ -26,16 +26,16 @@ var ServerLogMiddleware endpoint.Middleware = func(next endpoint.Endpoint) endpo
 			logId = "none"
 		}
 
-		logger.Infof("[%v] RPC Request | Method : %s | Req : %v", logId, method, req)
+		log.Infof("[%v] RPC Request | Method : %s | Req : %v", logId, method, req)
 
 		//执行下一个中间件或最终的Handler
 		err = next(ctx, req , resp)
 
 		cost := time.Since(start)
 		if err != nil {
-			logger.Errorf("[%v] RPC Error | Method : %s | Cost : %v | Err : %v", logId, method, cost, err)
+			log.Errorf("[%v] RPC Error | Method : %s | Cost : %v | Err : %v", logId, method, cost, err)
 		} else {
-			logger.Infof("[%v] RPC Success | Method : %s | Cost : %v | Resp : %v", logId, method, cost, resp)
+			log.Infof("[%v] RPC Success | Method : %s | Cost : %v | Resp : %v", logId, method, cost, resp)
 		}
 		return err
 	} 
@@ -43,11 +43,11 @@ var ServerLogMiddleware endpoint.Middleware = func(next endpoint.Endpoint) endpo
 // ClientLogMiddleware 客户端日志中间件
 var ClientLogMiddleware endpoint.Middleware = func(next endpoint.Endpoint) endpoint.Endpoint {
 	return func(ctx context.Context, req, resp interface{}) (err error) {
-		logger.InitLogger()
-		logger.Infof("Client Sending Request: %+v", req)
+		log := logger.WithContext(ctx)
+		log.Infof("Client Sending Request: %+v", req)
 		err = next(ctx, req, resp)
 		if err != nil {
-			logger.Warnf("Client Recv Error: %v", err)
+			log.Warnf("Client Recv Error: %v", err)
 		}
 		return err
 	}
