@@ -8,6 +8,7 @@ import (
 	"todo-list/app/user/usercase"
 
 	"github.com/spf13/viper"
+	"gorm.io/plugin/opentelemetry/tracing"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -25,6 +26,11 @@ func UserInit() *rpc.UserServiceImpl {
 	if err != nil {
 		log.Fatalf("Error connecting to database: %s", err)
 	}
+
+	if err = db.Use(tracing.NewPlugin()); err != nil {
+		log.Fatalf("Error using tracing plugin: %s", err)
+	}
+	
 	if err := db.AutoMigrate(&infrastructure.UserModel{}); err != nil {
 		log.Fatalf("Error migrating database: %s", err)
 	}

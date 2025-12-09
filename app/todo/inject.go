@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/plugin/opentelemetry/tracing"
 )
 
 func TodoInit() *rpc.TodoServiceImpl {
@@ -24,6 +25,9 @@ func TodoInit() *rpc.TodoServiceImpl {
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("Error connecting to database: %s", err)
+	}
+	if err = db.Use(tracing.NewPlugin()); err != nil {
+		log.Fatalf("Error using tracing plugin: %s", err)
 	}
 	if err := db.AutoMigrate(&infrastructure.TodoModel{}); err != nil {
 		log.Fatalf("Error migrating database: %s", err)
